@@ -39,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // List of screens for navigation
   final List<Widget> _screens = [
-    const TodoScreen(), // Todo screen
+    TodoScreen(), // Todo screen
     const ChatScreen(), // Chat screen
   ];
 
