@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:todo_chat_app/auth/auth.dart';
+import 'package:todo_chat_app/auth/login_screen.dart';
 import 'package:todo_chat_app/models/todo_data.dart';
+import 'package:todo_chat_app/utils/show_toast.dart';
+import 'package:todo_chat_app/widgets/add_new_todo.dart';
+import 'package:todo_chat_app/widgets/todo_drawer.dart';
 import 'package:todo_chat_app/widgets/todo_item.dart';
-import 'package:todo_chat_app/widgets/todo_item_detail.dart';
+
+final auth = Auth();
 
 class TodoScreen extends StatelessWidget {
   // Create a GlobalKey for the Scaffold
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  TodoScreen({super.key});
+  TodoScreen({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +37,7 @@ class TodoScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.menu, size: 24),
+                    icon: const Icon(Icons.menu_outlined, size: 24),
                     onPressed: () {
                       _scaffoldKey.currentState
                           ?.openDrawer(); // Open the drawer
@@ -61,83 +69,51 @@ class TodoScreen extends StatelessWidget {
                       // Handle view toggle action
                     },
                   ),
-                  IconButton(
-                    icon: const Icon(Icons.account_circle_outlined, size: 24),
-                    onPressed: () {
-                      // Handle user profile action
+                  PopupMenuButton(
+                    itemBuilder: (BuildContext context) {
+                      return [
+                        PopupMenuItem(
+                          value: 'Profile',
+                          child: const Text('Profile'),
+                          onTap: () {
+                            // Handle user profile action
+                          },
+                        ),
+                        PopupMenuItem(
+                          value: 'Settings',
+                          child: const Text('Settings'),
+                          onTap: () {
+                            // Handle user profile action
+                          },
+                        ),
+                        PopupMenuItem(
+                          value: 'Logout',
+                          child: const Text('Logout'),
+                          onTap: () {
+                            auth.signOut();
+                            if (auth.currentUser == null) {
+                              Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (context) => const LoginScreen()),
+                              );
+                            } else {
+                              showToast(
+                                  title: "Error",
+                                  message: "something went wrong",
+                                  isError: true);
+                            }
+                          },
+                        ),
+                      ];
                     },
+                    child: const Icon(Icons.account_circle_rounded),
                   ),
                 ],
               ),
             ),
           ),
         ),
-        drawer: Drawer(
-          elevation: 4,
-          child: ListView(
-            padding:
-                const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-            children: [
-              const Text(
-                'Todo',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              ListTile(
-                leading: const Icon(Icons.lightbulb_outlined), // Profile Icon
-                title: const Text('Notes'),
-                onTap: () {
-                  // Handle profile tap
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.add_alert_rounded), // Settings Icon
-                title: const Text('Reminders'),
-                onTap: () {
-                  // Handle settings tap
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.add), // Logout Icon
-                title: const Text('create new label'),
-                onTap: () {
-                  // Handle logout tap
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.archive_outlined), // Logout Icon
-                title: const Text('Archive'),
-                onTap: () {
-                  // Handle logout tap
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.delete_rounded), // Logout Icon
-                title: const Text('Trash'),
-                onTap: () {
-                  // Handle logout tap
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.settings_outlined), // Logout Icon
-                title: const Text('Settings'),
-                onTap: () {
-                  // Handle logout tap
-                },
-              ),
-              ListTile(
-                leading:
-                    const Icon(Icons.question_mark_outlined), // Logout Icon
-                title: const Text('Help & Feedback'),
-                onTap: () {
-                  // Handle logout tap
-                },
-              ),
-            ],
-          ),
-        ),
+        drawer: const TodoDrawer(),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: GridView.builder(
@@ -159,62 +135,7 @@ class TodoScreen extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).push(
               MaterialPageRoute(builder: (BuildContext ctx) {
-                return Scaffold(
-                  appBar: AppBar(
-                    actions: [
-                      IconButton(
-                        icon: const Icon(Icons.push_pin_outlined),
-                        onPressed: () {
-                          // Handle delete action
-                        },
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.add_alert_outlined),
-                        onPressed: () {
-                          // Handle delete action
-                        },
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.archive_outlined),
-                        onPressed: () {
-                          // Handle delete action
-                        },
-                      ),
-                    ],
-                  ),
-                  body: Container(
-                      margin: const EdgeInsets.all(16.0),
-                      padding: const EdgeInsets.all(8.0),
-                      child: const Column(
-                        children: [
-                          TextField(
-                            decoration: InputDecoration(
-                              hintText: 'Title',
-                              hintStyle: TextStyle(
-                                fontSize: 18,
-                              ),
-                              border: InputBorder.none,
-                              contentPadding: EdgeInsets.symmetric(
-                                horizontal: 8.0,
-                                vertical: 10.0,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 4,
-                          ),
-                          TextField(
-                            decoration: InputDecoration(
-                              hintText: "Note",
-                              hintStyle: TextStyle(fontSize: 18),
-                              border: InputBorder.none,
-                              contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 8.0, vertical: 10.0),
-                            ),
-                          ),
-                        ],
-                      )),
-                );
+                return const AddNewTodo();
               }),
             );
           },

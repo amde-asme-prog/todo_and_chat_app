@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "587240484725",
+    "firebase_url": "https://todo-chat-1d6ae-default-rtdb.firebaseio.com",
+    "project_id": "todo-chat-1d6ae",
+    "storage_bucket": "todo-chat-1d6ae.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:587240484725:android:bcd37b35bec2929a2d2d3c",
+        "android_client_info": {
+          "package_name": "com.example.todo_chat_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCuZ05N11ebZ1c6Pf2Zgiad__zlrnqWdWM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

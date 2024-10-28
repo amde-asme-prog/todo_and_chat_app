@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo_chat_app/models/todo.dart';
 import 'package:todo_chat_app/widgets/todo_item_detail.dart';
+import 'package:http/http.dart' as http;
 
 class TodoItem extends StatelessWidget {
   final Todo todo;

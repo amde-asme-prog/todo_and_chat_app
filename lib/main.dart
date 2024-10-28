@@ -1,28 +1,47 @@
 import 'package:flutter/material.dart';
-import 'package:todo_chat_app/screens/chat_screen.dart';
+import 'package:toastification/toastification.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:todo_chat_app/auth/login_screen.dart';
+import 'package:todo_chat_app/screens/chat.dart';
 import 'package:todo_chat_app/screens/todo_screen.dart';
-import 'package:todo_chat_app/utils/theme.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  Firebase.initializeApp();
+  runApp(
+    const ToastificationWrapper(
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Todo and Chat App',
+        themeMode: ThemeMode.system,
+        home: LandingPage(),
+      ),
+    ),
+  );
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
+class LandingPage extends StatelessWidget {
+  const LandingPage({super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Todo and Chat App',
-      themeMode: ThemeMode.light,
-      theme: lightTheme,
-      darkTheme: darkTheme,
-      home: const DefaultTabController(
-        length: 2,
-        child: HomeScreen(),
-      ),
+    final authState = FirebaseAuth.instance.authStateChanges();
+
+    return StreamBuilder<User?>(
+      stream: authState,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(
+            child: Text('Error: ${snapshot.error}'),
+          );
+        } else if (snapshot.hasData) {
+          return const HomeScreen(); // Replace with your actual home page
+        } else {
+          return const LoginScreen(); // Replace with your actual sign-in screen
+        }
+      },
     );
   }
 }
@@ -40,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // List of screens for navigation
   final List<Widget> _screens = [
     TodoScreen(), // Todo screen
-    const ChatScreen(), // Chat screen
+    const Chat(), // Chat screen
   ];
 
   // Update the current index on tab change
@@ -53,10 +72,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _screens[_currentIndex], // Display the current screen
+      body: _screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
-        onTap: _onTabTapped, // Handle tab change
+        onTap: _onTabTapped,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.check_circle_outline),
@@ -67,9 +86,9 @@ class _HomeScreenState extends State<HomeScreen> {
             label: 'Chat',
           ),
         ],
-        selectedItemColor: Colors.deepPurple, // Color for selected item
-        unselectedItemColor: Colors.grey, // Color for unselected items
-        showUnselectedLabels: true, // Display labels for unselected items
+        selectedItemColor: Colors.deepPurple,
+        unselectedItemColor: Colors.grey,
+        showUnselectedLabels: true,
       ),
     );
   }
