@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:toastification/toastification.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,13 +11,18 @@ import 'package:todo_chat_app/screens/todo_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Firebase.initializeApp();
+  FirebaseFirestore.instance.settings = const Settings(
+    persistenceEnabled: true,
+  );
   runApp(
     const ToastificationWrapper(
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Todo and Chat App',
-        themeMode: ThemeMode.system,
-        home: LandingPage(),
+      child: ProviderScope(
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Todo and Chat App',
+          themeMode: ThemeMode.system,
+          home: Text('Loading...'),
+        ),
       ),
     ),
   );
@@ -23,6 +30,7 @@ void main() async {
 
 class LandingPage extends StatelessWidget {
   const LandingPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     final authState = FirebaseAuth.instance.authStateChanges();
@@ -31,10 +39,14 @@ class LandingPage extends StatelessWidget {
       stream: authState,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
         } else if (snapshot.hasError) {
-          return Center(
-            child: Text('Error: ${snapshot.error}'),
+          return Scaffold(
+            body: Center(
+              child: Text('Error: ${snapshot.error}'),
+            ),
           );
         } else if (snapshot.hasData) {
           return const HomeScreen(); // Replace with your actual home page

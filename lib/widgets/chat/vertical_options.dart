@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todo_chat_app/widgets/options_tile.dart';
+import 'package:todo_chat_app/widgets/chat/options_tile.dart';
 
 class VerticalOptions extends StatelessWidget {
   const VerticalOptions({

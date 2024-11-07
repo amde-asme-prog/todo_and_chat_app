@@ -6,7 +6,7 @@ ToastificationItem showToast(
   return toastification.show(
     type: ToastificationType.success,
     style: ToastificationStyle.flat,
-    autoCloseDuration: const Duration(seconds: 5),
+    autoCloseDuration: Duration(seconds: isError ? 3 : 2),
     title: Text(title),
     description: Text(message),
     alignment: Alignment.topRight,

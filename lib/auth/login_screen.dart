@@ -123,6 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               setState(() {
                                 isLoggedIn = false;
                               });
+                              return;
                             } else {
                               isLoggedIn = true;
                               Navigator.pushReplacement(

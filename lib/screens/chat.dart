@@ -26,6 +26,7 @@ class _ChatState extends State<Chat> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      top: false,
       child: Scaffold(
         appBar: AppBar(
           shadowColor: const Color.fromARGB(136, 189, 156, 156),
@@ -114,7 +115,7 @@ class ChatListPage extends StatelessWidget {
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (BuildContext context) => ChatScreen(),
+                builder: (BuildContext context) => const ChatScreen(),
               ),
             );
           },

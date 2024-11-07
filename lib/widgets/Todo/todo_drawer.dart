@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:todo_chat_app/screens/todo_screen.dart';
+import 'package:todo_chat_app/widgets/Todo/add_new_todo.dart';
 
 class TodoDrawer extends StatelessWidget {
   const TodoDrawer({
@@ -23,42 +25,68 @@ class TodoDrawer extends StatelessWidget {
             leading: const Icon(Icons.lightbulb_outlined), // Profile Icon
             title: const Text('Notes'),
             onTap: () {
-              // Handle profile tap
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (ctx) => TodoScreen(),
+                ),
+              );
             },
           ),
           ListTile(
             leading: const Icon(Icons.add_alert_rounded), // Settings Icon
             title: const Text('Reminders'),
             onTap: () {
-              // Handle settings tap
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (ctx) => TodoScreen(),
+                ),
+              );
             },
           ),
+          const Divider(),
           ListTile(
             leading: const Icon(Icons.add), // Logout Icon
             title: const Text('create new label'),
             onTap: () {
-              // Handle logout tap
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (ctx) => const AddNewTodo(),
+                ),
+              );
             },
           ),
+          const Divider(),
           ListTile(
             leading: const Icon(Icons.archive_outlined), // Logout Icon
             title: const Text('Archive'),
             onTap: () {
-              // Handle logout tap
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (ctx) => TodoScreen(),
+                ),
+              );
             },
           ),
           ListTile(
             leading: const Icon(Icons.delete_rounded), // Logout Icon
             title: const Text('Trash'),
             onTap: () {
-              // Handle logout tap
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (ctx) => TodoScreen(),
+                ),
+              );
             },
           ),
           ListTile(
             leading: const Icon(Icons.settings_outlined), // Logout Icon
             title: const Text('Settings'),
             onTap: () {
-              // Handle logout tap
+              // Navigator.of(context).push(
+              //   MaterialPageRoute(
+              //     builder: (ctx) => ,
+              //   ),
+              // );
             },
           ),
           ListTile(

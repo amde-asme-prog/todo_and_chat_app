@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todo_chat_app/widgets/vertical_options.dart';
+import 'package:todo_chat_app/widgets/chat/vertical_options.dart';
 
 class UserProfileSheet extends StatelessWidget {
   const UserProfileSheet({super.key});
